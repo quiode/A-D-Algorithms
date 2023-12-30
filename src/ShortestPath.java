@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -110,40 +109,6 @@ public class ShortestPath {
 		}
 
 		return d;
-	}
-
-	private static class Tuple implements Comparable<Tuple> {
-		final int node;
-		final int distance;
-
-		public Tuple(int node, int distance) {
-			this.node = node;
-			this.distance = distance;
-		}
-
-		public static Tuple of(int node, int distance) {
-			return new Tuple(node, distance);
-		}
-
-		@Override
-		public int compareTo(ShortestPath.Tuple o) {
-			return distance - o.distance;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof Tuple) {
-				Tuple tuple = (Tuple) obj;
-				return node == tuple.node && distance == tuple.distance;
-			} else {
-				return false;
-			}
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(node, distance);
-		}
 	}
 
 	public static int[] bellmanFord(Graph g, int start) {
