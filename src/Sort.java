@@ -172,6 +172,14 @@ public class Sort {
 			heap = new int[size];
 		}
 
+		public Heap(int[] values) {
+			this(values.length);
+
+			for (int v : values) {
+				insert(v);
+			}
+		}
+
 		public void insert(int v) {
 			if (lastElement >= heap.length - 1) {
 				throw new ArrayIndexOutOfBoundsException("Heap is full");
