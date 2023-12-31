@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Graph {
@@ -85,5 +86,55 @@ public class Graph {
 
 	public List<List<Integer>> getWeights() {
 		return weights.stream().map(list -> list.stream().collect(Collectors.toList())).collect(Collectors.toList());
+	}
+
+	public List<Edge> getEdges() {
+		List<Edge> edges = new ArrayList<>(m);
+
+		for (int u = 0; u < adj.size(); u++) {
+			for (int i = 0; i < adj.get(u).size(); i++) {
+				int v = adj.get(u).get(i);
+
+				edges.add(Edge.of(u, v, weights.get(u).get(i)));
+			}
+		}
+
+		return edges;
+	}
+
+	public static class Edge implements Comparable<Edge> {
+		public final int u;
+		public final int v;
+		public final int weight;
+
+		public Edge(int u, int v, int cost) {
+			this.u = u;
+			this.v = v;
+			this.weight = cost;
+		}
+
+		public static Edge of(int u, int v, int cost) {
+			return new Edge(u, v, cost);
+		}
+
+		@Override
+		public int compareTo(Edge o) {
+			return weight - o.weight;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof Edge) {
+				Edge e = (Edge) obj;
+				return u == e.u && v == e.v && weight == e.weight;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(u, v, weight);
+		}
 	}
 }
