@@ -6,9 +6,13 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Timeout;
 
+@Timeout(5)
 public class SortTest {
 	private final Random random = new Random(23452345);
 
@@ -25,8 +29,7 @@ public class SortTest {
 		return A;
 	}
 
-	@Test
-	public void testSort() {
+	private void testSortMethod(Consumer<int[]> sort) {
 		// test for 10 arrays
 		for (int i = 0; i < 10; i++) {
 			// create arrays
@@ -34,32 +37,40 @@ public class SortTest {
 			int[] sortedA = A.clone();
 			Arrays.sort(sortedA);
 
-			// test sorting algorithms
-			// bubble sort
-			int[] sorted = A.clone();
-			Sort.bubble(sorted);
-			assertArrayEquals(sortedA, sorted);
-			// selection
-			sorted = A.clone();
-			Sort.selection(sorted);
-			assertArrayEquals(sortedA, sorted);
-			// insertion
-			sorted = A.clone();
-			Sort.insertion(sorted);
-			assertArrayEquals(sortedA, sorted);
-			// merge
-			sorted = A.clone();
-			Sort.merge(sorted);
-			assertArrayEquals(sortedA, sorted);
-			// quick
-			sorted = A.clone();
-			Sort.quick(sorted);
-			assertArrayEquals(sortedA, sorted);
-			// heap
-			sorted = A.clone();
-			Sort.heap(sorted);
-			assertArrayEquals(sortedA, sorted);
+			// test sorting algorithm
+			sort.accept(A);
+			assertArrayEquals(sortedA, A);
 		}
+	}
+
+	@Test
+	public void testBubble() {
+		testSortMethod(Sort::bubble);
+	}
+
+	@Test
+	public void testInsertion() {
+		testSortMethod(Sort::insertion);
+	}
+
+	@Test
+	public void testSelection() {
+		testSortMethod(Sort::selection);
+	}
+
+	@Test
+	public void testQuick() {
+		testSortMethod(Sort::quick);
+	}
+
+	@Test
+	public void testMege() {
+		testSortMethod(Sort::merge);
+	}
+
+	@Test
+	public void testHeap() {
+		testSortMethod(Sort::heap);
 	}
 
 	@Test
